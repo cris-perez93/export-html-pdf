@@ -4,6 +4,9 @@ const app = express();
 const router = express.Router();
 const puppeteer = require("puppeteer");
 
+app.use(express.json()); // Para parsear application/json
+app.use(express.urlencoded({ extended: true })); // Para parsear application/x-www-form-urlencoded
+
 let records = [];
 
 //Get all students
@@ -13,6 +16,7 @@ router.get("/", (req, res) => {
 
 // // Endpoint para generar PDF
 router.post("/generate-pdf", async (req, res) => {
+  console.log(req.body);
   // Asume que recibes HTML como parte del cuerpo de la solicitud
   const { content } = req.body;
 
