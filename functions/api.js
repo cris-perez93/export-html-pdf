@@ -5,7 +5,7 @@ const router = express.Router();
 const puppeteer = require("puppeteer");
 
 app.use(express.json()); // Para parsear application/json
-app.use(express.urlencoded({ extended: true })); // Para parsear application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 let records = [];
 
