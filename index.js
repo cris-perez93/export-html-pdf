@@ -1,6 +1,8 @@
 const express = require("express");
 var bodyParser = require("body-parser");
 const puppeteer = require("puppeteer");
+const serverless = require("serverless-http");
+const router = express.Router();
 const app = express();
 app.use(bodyParser.json({ limit: "250mb" }));
 app.use(bodyParser.urlencoded({ limit: "250mb", extended: true }));
@@ -55,3 +57,5 @@ app.post("/generate-pdf", async (req, res) => {
     res.status(500).send("Failed to generate PDF");
   }
 });
+app.use("/.netlify/functions/api", router);
+module.exports.handler = serverless(app);
