@@ -1,11 +1,13 @@
 const express = require("express");
 const serverless = require("serverless-http");
+const bodyParser = require("body-parser");
 const app = express();
 const router = express.Router();
 const puppeteer = require("puppeteer");
 
 app.use(express.json()); // Para parsear application/json
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+app.use(bodyParser.json({ limit: "250mb" }));
+app.use(bodyParser.urlencoded({ limit: "250mb", extended: true }));
 
 let records = [];
 
