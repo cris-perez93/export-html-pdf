@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 });
 
 // // Endpoint para generar PDF
-app.post("/generate-pdf", async (req, res) => {
+router.post("/generate-pdf", async (req, res) => {
   // Asume que recibes HTML como parte del cuerpo de la solicitud
   const { content } = req.body;
 
