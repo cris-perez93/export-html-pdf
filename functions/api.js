@@ -2,6 +2,7 @@ const express = require("express");
 const serverless = require("serverless-http");
 const app = express();
 const router = express.Router();
+const puppeteer = require("puppeteer");
 
 let records = [];
 
@@ -26,7 +27,7 @@ app.post("/generate-pdf", async (req, res) => {
     });
     const page = await browser.newPage();
     await page.setContent(content, { waitUntil: "networkidle0" }); // Espera hasta que el evento 'networkidle0' se dispare
-    const pdf = await page.pdf({ format: "A4" }); // Genera un PDF con formato A4
+    const pdf = await page.pdf({ format: "A4", printBackground: true }); // Genera un PDF con formato A4
 
     await browser.close();
 
