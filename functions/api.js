@@ -31,32 +31,32 @@
 // });
 
 // // Endpoint para generar PDF
-// app.post("/generate-pdf", async (req, res) => {
-//   // Asume que recibes HTML como parte del cuerpo de la solicitud
-//   const { content } = req.body;
+app.post("/generate-pdf", async (req, res) => {
+  // Asume que recibes HTML como parte del cuerpo de la solicitud
+  const { content } = req.body;
 
-//   if (!content) {
-//     return res.status(400).send("No HTML content provided.");
-//   }
+  if (!content) {
+    return res.status(400).send("No HTML content provided.");
+  }
 
-//   try {
-//     const browser = await puppeteer.launch({
-//       headless: true, // Puppeteer corre en modo headless por defecto
-//       args: ["--no-sandbox", "--disable-setuid-sandbox"], // Argumentos necesarios en ciertos entornos
-//     });
-//     const page = await browser.newPage();
-//     await page.setContent(content, { waitUntil: "networkidle0" }); // Espera hasta que el evento 'networkidle0' se dispare
-//     const pdf = await page.pdf({ format: "A4" }); // Genera un PDF con formato A4
+  try {
+    const browser = await puppeteer.launch({
+      headless: true, // Puppeteer corre en modo headless por defecto
+      args: ["--no-sandbox", "--disable-setuid-sandbox"], // Argumentos necesarios en ciertos entornos
+    });
+    const page = await browser.newPage();
+    await page.setContent(content, { waitUntil: "networkidle0" }); // Espera hasta que el evento 'networkidle0' se dispare
+    const pdf = await page.pdf({ format: "A4" }); // Genera un PDF con formato A4
 
-//     await browser.close();
+    await browser.close();
 
-//     res.setHeader("Content-Type", "application/pdf");
-//     res.send(pdf); // Envía el PDF generado como respuesta
-//   } catch (error) {
-//     console.error("Error generating PDF:", error);
-//     res.status(500).send("Failed to generate PDF");
-//   }
-// });
+    res.setHeader("Content-Type", "application/pdf");
+    res.send(pdf); // Envía el PDF generado como respuesta
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    res.status(500).send("Failed to generate PDF");
+  }
+});
 // app.use("/.netlify/functions/api", router);
 // module.exports.handler = serverless(app);
 
@@ -72,11 +72,33 @@ router.get("/", (req, res) => {
   res.send("App is running..");
 });
 
-//Create new record
-router.post("/add", (req, res) => {
-  res.send("New record added.");
-});
+// // Endpoint para generar PDF
+app.post("/generate-pdf", async (req, res) => {
+  // Asume que recibes HTML como parte del cuerpo de la solicitud
+  const { content } = req.body;
 
+  if (!content) {
+    return res.status(400).send("No HTML content provided.");
+  }
+
+  try {
+    const browser = await puppeteer.launch({
+      headless: true, // Puppeteer corre en modo headless por defecto
+      args: ["--no-sandbox", "--disable-setuid-sandbox"], // Argumentos necesarios en ciertos entornos
+    });
+    const page = await browser.newPage();
+    await page.setContent(content, { waitUntil: "networkidle0" }); // Espera hasta que el evento 'networkidle0' se dispare
+    const pdf = await page.pdf({ format: "A4" }); // Genera un PDF con formato A4
+
+    await browser.close();
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.send(pdf); // Envía el PDF generado como respuesta
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    res.status(500).send("Failed to generate PDF");
+  }
+});
 //delete existing record
 router.delete("/", (req, res) => {
   res.send("Deleted existing record");
