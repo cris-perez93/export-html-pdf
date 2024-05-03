@@ -5,7 +5,6 @@ const app = express();
 const router = express.Router();
 const puppeteer = require("puppeteer");
 
-app.use(express.json()); // Para parsear application/json
 app.use(bodyParser.json({ limit: "250mb" }));
 app.use(bodyParser.urlencoded({ limit: "250mb", extended: true }));
 
