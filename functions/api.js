@@ -1,10 +1,12 @@
 const express = require("express");
 const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
+const cors = require("cors"); // Requerir el módulo CORS
 const app = express();
 const router = express.Router();
 const puppeteer = require("puppeteer");
 
+app.use(cors()); // Activar CORS para todas las rutas y métodos
 app.use(bodyParser.json({ limit: "250mb" }));
 app.use(bodyParser.urlencoded({ limit: "250mb", extended: true }));
 
