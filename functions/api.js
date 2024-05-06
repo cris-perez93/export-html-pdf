@@ -1,5 +1,6 @@
 const express = require("express");
 const serverless = require("serverless-http");
+const chromium = require("chrome-aws-lambda");
 const bodyParser = require("body-parser");
 const cors = require("cors"); // Requerir el módulo CORS
 const app = express();
@@ -29,8 +30,11 @@ router.post("/generate-pdf", async (req, res) => {
 
   try {
     const browser = await puppeteer.launch({
-      headless: true, // Puppeteer corre en modo headless por defecto
-      args: ["--no-sandbox", "--disable-setuid-sandbox"], // Argumentos necesarios en ciertos entornos
+      executablePath: await chromium.executablePath,
+      args: chromium.args,
+      headless: true,
+      defaultViewport: chromium.defaultViewport,
+      ignoreHTTPSErrors: true,
     });
     const page = await browser.newPage();
     await page.setContent(content, { waitUntil: "networkidle0" }); // Espera hasta que el evento 'networkidle0' se dispare
@@ -77,4 +81,12 @@ router.get("/demo", (req, res) => {
 });
 
 app.use("/.netlify/functions/api", router);
-module.exports.handler = serverless(app);
+// Alternar entre entorno serverless y desarrollo local
+if (process.env.NODE_ENV === "production") {
+  module.exports.handler = serverless(app);
+} else {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
